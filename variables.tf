@@ -120,6 +120,21 @@ variable "node_labels" {
   description = "(Optional) A map of Kubernetes labels which should be applied to nodes in this Node Pool."
 }
 
+variable "default_node_max_count" {
+  type        = number
+  default     = 9
+}
+
+variable "default_node_min_count" {
+  type        = number
+  default     = 3
+}
+
+variable "default_node_vm_size" {
+  type        = string
+  default     = "Standard_D4d_v5"
+}
+
 variable "node_pools" {
   type = map(object({
     name                 = string
