@@ -56,28 +56,35 @@ module "test" {
     }
   }
   managed_identities = {
-    user_assigned_resource_ids = [
-      azurerm_user_assigned_identity.this.id
-    ]
+    # user_assigned_resource_ids = [
+    #   azurerm_user_assigned_identity.this.id
+    # ]
+    # got error for my user on this subscription scope
+    # > does not have authorization to perform action 'Microsoft.Authorization/roleAssignments/write'
+    # not sure why this worked when calling the same code on the hosted module?
+    system_assigned = true
   }
 
   location = "West US" # Hardcoded because we have to test in a region without availability zones
+  default_node_max_count = 1
+  default_node_min_count = 1
+  default_node_vm_size = "Standard_D4d_v4"
   node_pools = {
     workload = {
       name                 = "workload"
-      vm_size              = "Standard_D2d_v5"
+      vm_size              = "Standard_D2d_v4"
       orchestrator_version = "1.30"
-      max_count            = 110
-      min_count            = 2
+      max_count            = 1
+      min_count            = 1
       os_sku               = "AzureLinux"
       mode                 = "User"
     },
     ingress = {
       name                 = "ingress"
-      vm_size              = "Standard_D2d_v5"
+      vm_size              = "Standard_D2d_v4"
       orchestrator_version = "1.30"
-      max_count            = 4
-      min_count            = 2
+      max_count            = 1
+      min_count            = 1
       os_sku               = "AzureLinux"
       mode                 = "User"
     }
